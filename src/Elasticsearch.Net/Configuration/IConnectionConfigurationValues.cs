@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
 namespace Elasticsearch.Net
@@ -171,6 +173,11 @@ namespace Elasticsearch.Net
 		/// received.
 		/// </summary>
 		TimeSpan? KeepAliveInterval { get; }
+
+		/// <summary>
+		/// Register a ServerCertificateValidationCallback per request
+		/// </summary>
+		Func<object, X509Certificate,X509Chain,SslPolicyErrors, bool>  ServerCertificateValidationCallBack { get; }
 
 		/// <summary>
 		/// Register a predicate to select which nodes that you want to execute API calls on. Note that sniffing requests omit this predicate and always execute on all nodes.

@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,12 +16,6 @@ namespace Elasticsearch.Net
 	{
 		static HttpConnection()
 		{
-			//ServicePointManager.SetTcpKeepAlive(true, 2000, 2000);
-
-			//WebException's GetResponse is limitted to 65kb by default.
-			//Elasticsearch can be alot more chatty then that when dumping exceptions
-			//On error responses, so lets up the ante.
-
 			//Not available under mono
 			if (Type.GetType("Mono.Runtime") == null)
 				HttpWebRequest.DefaultMaximumErrorResponseLength = -1;
@@ -31,8 +26,18 @@ namespace Elasticsearch.Net
 			var request = this.CreateWebRequest(requestData);
 			this.SetBasicAuthenticationIfNeeded(request, requestData);
 			this.SetProxyIfNeeded(request, requestData);
+			this.SetServerCertificateValidationCallBackIfNeeded(request, requestData);
 			this.AlterServicePoint(request.ServicePoint, requestData);
 			return request;
+		}
+
+		protected virtual void SetServerCertificateValidationCallBackIfNeeded(HttpWebRequest request, RequestData requestData)
+		{
+			//Only assign if one is defined on connection settings and a subclass has not already set one
+			if (requestData.ConnectionSettings.ServerCertificateValidationCallBack != null
+			    && request.ServerCertificateValidationCallback == null)
+				request.ServerCertificateValidationCallback =
+					new RemoteCertificateValidationCallback(requestData.ConnectionSettings.ServerCertificateValidationCallBack);
 		}
 
 		protected virtual HttpWebRequest CreateWebRequest(RequestData requestData)

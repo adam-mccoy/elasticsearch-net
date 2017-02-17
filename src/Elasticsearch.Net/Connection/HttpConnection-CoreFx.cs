@@ -110,7 +110,7 @@ namespace Elasticsearch.Net
 			return await builder.ToResponseAsync().ConfigureAwait(false);
 		}
 
-		private static string MissingConnectionLimitMethodError =
+		private static readonly string MissingConnectionLimitMethodError =
 			$"Your target platform does not support {nameof(ConnectionConfiguration.ConnectionLimit)}"
 			+ $" please set {nameof(ConnectionConfiguration.ConnectionLimit)} to -1 on your connection configuration."
 			+ $" this will cause the {nameof(HttpClientHandler.MaxConnectionsPerServer)} not to be set on {nameof(HttpClientHandler)}";
@@ -146,6 +146,9 @@ namespace Elasticsearch.Net
 
 			if (requestData.DisableAutomaticProxyDetection)
 				handler.Proxy = null;
+
+			if (requestData.ConnectionSettings.ServerCertificateValidationCallBack != null)
+				handler.ServerCertificateCustomValidationCallback = requestData.ConnectionSettings.ServerCertificateValidationCallBack;
 
 			return handler;
 		}

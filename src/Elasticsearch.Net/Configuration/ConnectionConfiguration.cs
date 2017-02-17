@@ -3,6 +3,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
 #if DOTNETCORE
@@ -142,6 +144,9 @@ namespace Elasticsearch.Net
 		private static void DefaultRequestDataCreated(RequestData response) { }
 		private Action<RequestData> _onRequestDataCreated = DefaultRequestDataCreated;
 		Action<RequestData> IConnectionConfigurationValues.OnRequestDataCreated => _onRequestDataCreated;
+
+		private Func<object, X509Certificate,X509Chain,SslPolicyErrors, bool> _serverCertificateValidationCallback;
+		Func<object, X509Certificate, X509Chain, SslPolicyErrors, bool> IConnectionConfigurationValues.ServerCertificateValidationCallBack => _serverCertificateValidationCallback;
 
 		/// <summary>
 		/// The default predicate for <see cref="IConnectionPool"/> implementations that return true for <see cref="IConnectionPool.SupportsReseeding"/>
@@ -411,6 +416,12 @@ namespace Elasticsearch.Net
 			};
 			return (T)this;
 		}
+
+		/// <summary>
+		/// Register a ServerCertificateValidationCallback per request
+		/// </summary>
+		public T ServerCertificateValidationCallback(Func<object, X509Certificate, X509Chain, SslPolicyErrors, bool> callback) =>
+			Assign(a => a._serverCertificateValidationCallback = callback);
 
 		void IDisposable.Dispose() => this.DisposeManagedResources();
 
