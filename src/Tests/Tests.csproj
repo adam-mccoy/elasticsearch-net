@@ -261,8 +261,11 @@
     <Compile Include="Document\Single\Update\UpdateWithScriptApiTests.cs" />
     <Compile Include="Framework\Benchmarks\BenchmarkConfig.cs" />
     <Compile Include="Framework\Benchmarks\BenchmarkTest.cs" />
+    <Compile Include="Framework\EndpointTests\ApiIntegrationAgainstNewIndexTestBase.cs" />
     <Compile Include="Framework\EndpointTests\ApiIntegrationTestBase.cs" />
     <Compile Include="Framework\EndpointTests\ApiTestBase.cs" />
+    <Compile Include="Framework\EndpointTests\CanConnectTestBase.cs" />
+    <Compile Include="Framework\EndpointTests\ConnectionErrorTestBase.cs" />
     <Compile Include="Framework\EndpointTests\TestState\AsyncLazy.cs" />
     <Compile Include="Framework\Extensions\EnumerableExtensions.cs" />
     <Compile Include="Framework\Extensions\ReadOnlyDictionaryAssertions.cs" />
@@ -750,6 +753,8 @@
     <Compile Include="Search\Search\SearchProfileApiTests.cs" />
     <Compile Include="Search\Search\SearchProfileTests.cs" />
     <Compile Include="Search\Suggesters\SuggestUrlTests.cs" />
+    <Compile Include="XPack\Security\Certificates\SelfSignedSslApiTests.cs" />
+    <Compile Include="XPack\Security\Certificates\SslAndKpiXPackCluster.cs" />
     <Compile Include="XPack\Security\ClearCachedRealms\ClearCachedRealmsApiTests.cs" />
     <Compile Include="XPack\Security\ClearCachedRealms\ClearCachedRealmsUrlTests.cs" />
     <Compile Include="XPack\Security\Role\ClearCachedRoles\ClearCachedRolesApiTests.cs" />

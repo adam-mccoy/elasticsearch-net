@@ -25,15 +25,22 @@ namespace Tests.Framework.ManagedElasticsearch.Clusters
 		public virtual int MaxConcurrency => 0;
 		protected virtual string[] AdditionalServerSettings { get; } = { };
 		protected virtual InstallationTaskBase[] AdditionalInstallationTasks { get; } = { };
+
+		public virtual bool EnableSsl { get; }
+		public virtual bool SkipValidation { get; }
+
+		public virtual ConnectionSettings ClusterConnectionSettings(ConnectionSettings s) => s;
+
 		protected virtual void SeedNode() { }
 
 		public void Start()
 		{
-			this.TaskRunner.Install();
+			this.TaskRunner.Install(this.AdditionalInstallationTasks);
 			var nodeSettings = this.NodeConfiguration.CreateSettings(this.AdditionalServerSettings);
 			this.TaskRunner.OnBeforeStart(nodeSettings);
 			this.Node.Start(nodeSettings);
-			this.TaskRunner.ValidateAfterStart(this.Node.Client);
+			if (!this.SkipValidation)
+				this.TaskRunner.ValidateAfterStart(this.Node.Client);
 			this.SeedNode();
 		}
 

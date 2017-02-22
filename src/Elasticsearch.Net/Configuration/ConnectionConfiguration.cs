@@ -146,7 +146,7 @@ namespace Elasticsearch.Net
 		Action<RequestData> IConnectionConfigurationValues.OnRequestDataCreated => _onRequestDataCreated;
 
 		private Func<object, X509Certificate,X509Chain,SslPolicyErrors, bool> _serverCertificateValidationCallback;
-		Func<object, X509Certificate, X509Chain, SslPolicyErrors, bool> IConnectionConfigurationValues.ServerCertificateValidationCallBack => _serverCertificateValidationCallback;
+		Func<object, X509Certificate, X509Chain, SslPolicyErrors, bool> IConnectionConfigurationValues.ServerCertificateValidationCallback => _serverCertificateValidationCallback;
 
 		/// <summary>
 		/// The default predicate for <see cref="IConnectionPool"/> implementations that return true for <see cref="IConnectionPool.SupportsReseeding"/>

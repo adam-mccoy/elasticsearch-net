@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
 namespace Elasticsearch.Net
@@ -202,6 +204,7 @@ namespace Elasticsearch.Net
 			Self.ForceNode = uri;
 			return this;
 		}
+
 		public RequestConfigurationDescriptor MaxRetries(int retry)
 		{
 			Self.MaxRetries = retry;

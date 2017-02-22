@@ -26,6 +26,17 @@ namespace Tests.Framework.ManagedElasticsearch.Nodes
 		public string DownloadZipLocation => Path.Combine(this.RoamingFolder, this._version.Zip);
 		public string TaskRunnerFile => Path.Combine(this.RoamingFolder, "taskrunner.log");
 
+
+		//certificates
+		public string CertGenBinary => Path.Combine(this.ElasticsearchHome, "bin", "x-pack", "certgen") + ".bat";
+
+		public string CertificateFolderName => "node-certificates";
+		public string CertificateNodeName => "node01";
+		public string CertificatesPath => Path.Combine(this.ConfigPath, this.CertificateFolderName);
+		public string CaCertificate => Path.Combine(this.CertificatesPath, "ca", "ca") + ".crt";
+		public string NodePrivateKey => Path.Combine(this.CertificatesPath, this.CertificateNodeName, this.CertificateNodeName) + ".key";
+		public string NodeCertificate => Path.Combine(this.CertificatesPath, this.CertificateNodeName, this.CertificateNodeName) + ".crt";
+
 		public NodeFileSystem(ElasticsearchVersion version, string clusterName, string nodeName)
 		{
 			this._version = version;

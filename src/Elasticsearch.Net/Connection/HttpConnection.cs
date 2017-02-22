@@ -34,10 +34,9 @@ namespace Elasticsearch.Net
 		protected virtual void SetServerCertificateValidationCallBackIfNeeded(HttpWebRequest request, RequestData requestData)
 		{
 			//Only assign if one is defined on connection settings and a subclass has not already set one
-			if (requestData.ConnectionSettings.ServerCertificateValidationCallBack != null
-			    && request.ServerCertificateValidationCallback == null)
-				request.ServerCertificateValidationCallback =
-					new RemoteCertificateValidationCallback(requestData.ConnectionSettings.ServerCertificateValidationCallBack);
+			var callback = requestData?.ConnectionSettings?.ServerCertificateValidationCallback;
+			if (callback != null && request.ServerCertificateValidationCallback == null)
+				request.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(callback);
 		}
 
 		protected virtual HttpWebRequest CreateWebRequest(RequestData requestData)

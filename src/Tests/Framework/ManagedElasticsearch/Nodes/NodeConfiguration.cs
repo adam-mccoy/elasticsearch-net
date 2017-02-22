@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nest;
 using Tests.Framework.Configuration;
 using Tests.Framework.ManagedElasticsearch.Clusters;
 using Tests.Framework.ManagedElasticsearch.Plugins;
@@ -24,6 +25,8 @@ namespace Tests.Framework.ManagedElasticsearch.Nodes
 		public ElasticsearchPlugin[] RequiredPlugins { get; } = { };
 
 		public bool XPackEnabled => this.RequiredPlugins.Contains(ElasticsearchPlugin.XPack);
+		public bool EnableSsl { get; }
+		public ConnectionSettings ClusterConnectionSettings(ConnectionSettings s) => _cluster.ClusterConnectionSettings(s);
 
 		private readonly string _uniqueSuffix = Guid.NewGuid().ToString("N").Substring(0, 6);
 		public string ClusterMoniker => this._cluster.GetType().Name.Replace("Cluster", "").ToLowerInvariant();
@@ -35,6 +38,7 @@ namespace Tests.Framework.ManagedElasticsearch.Nodes
 		public NodeConfiguration(ITestConfiguration configuration, ClusterBase cluster)
 		{
 			this._cluster = cluster;
+			this.EnableSsl = cluster.SkipValidation;
 
 			this.RequiredPlugins = ClusterRequiredPlugins(cluster);
 			this.Mode = configuration.Mode;

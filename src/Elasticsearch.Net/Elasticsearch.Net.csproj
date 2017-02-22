@@ -72,6 +72,7 @@
     <Compile Include="Connection\HttpMethod.cs" />
     <Compile Include="Connection\IConnection.cs" />
     <Compile Include="Connection\InMemoryConnection.cs" />
+    <Compile Include="Connection\CertificateValidations.cs" />
     <Compile Include="CrossPlatform\TypeExtensions.cs" />
     <Compile Include="Domain\Enums.Generated.cs" />
     <Compile Include="Domain\IHideObjectMembers.cs" />

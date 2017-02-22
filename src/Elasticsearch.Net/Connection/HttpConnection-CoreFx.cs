@@ -147,8 +147,9 @@ namespace Elasticsearch.Net
 			if (requestData.DisableAutomaticProxyDetection)
 				handler.Proxy = null;
 
-			if (requestData.ConnectionSettings.ServerCertificateValidationCallBack != null)
-				handler.ServerCertificateCustomValidationCallback = requestData.ConnectionSettings.ServerCertificateValidationCallBack;
+			var callback = requestData?.ConnectionSettings?.ServerCertificateValidationCallback;
+			if (callback != null && handler.ServerCertificateCustomValidationCallback == null)
+				handler.ServerCertificateCustomValidationCallback = callback;
 
 			return handler;
 		}
